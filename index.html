@@ -3,257 +3,535 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matthew Karsten | Author</title>
+    <title>Matthew Karsten | Author & Storyteller</title>
+    <meta name="description" content="Matthew Karsten is an author and world traveler whose writing blends adventure, introspection, and the transformative power of exploration.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --purple-primary: #7C3AED;
+            --purple-accent: #A855F7;
+            --purple-glow: rgba(124, 58, 237, 0.15);
+            --purple-subtle: rgba(168, 85, 247, 0.08);
+            --bg-deep: #0f0f12;
+            --bg-card: rgba(22, 22, 28, 0.8);
+            --text-primary: #f4f2ef;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6965;
+            --border-subtle: rgba(168, 85, 247, 0.12);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Crimson Pro', Georgia, serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+            font-weight: 300;
             min-height: 100vh;
-            color: #f0f0f0;
-            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* Paper grain texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Ambient glow */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--purple-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .glow-1 { top: -200px; left: -100px; }
+        .glow-2 { bottom: -300px; right: -200px; opacity: 0.5; }
+
         .container {
-            max-width: 800px;
+            max-width: 720px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 80px 24px 60px;
+            position: relative;
         }
-        .author-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 50px;
+
+        /* Staggered reveal animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .reveal {
+            animation: fadeUp 0.8s ease-out both;
+        }
+
+        .reveal-1 { animation-delay: 0.1s; }
+        .reveal-2 { animation-delay: 0.2s; }
+        .reveal-3 { animation-delay: 0.35s; }
+        .reveal-4 { animation-delay: 0.5s; }
+        .reveal-5 { animation-delay: 0.65s; }
+        .reveal-6 { animation-delay: 0.8s; }
+        .reveal-7 { animation-delay: 0.95s; }
+
+        /* Author Hero Section */
+        .author-hero {
             text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+            margin-bottom: 80px;
         }
+
+        .author-photo-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .author-photo-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            background: linear-gradient(135deg, var(--purple-primary), var(--purple-accent));
+            border-radius: 50%;
+            opacity: 0.6;
+            z-index: -1;
+        }
+
         .author-photo {
-            width: 180px;
-            height: 180px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 30px;
+            display: block;
+            border: 4px solid var(--bg-deep);
+            transition: transform 0.5s ease;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+
+        .author-photo:hover {
+            transform: scale(1.02);
+        }
+
+        .author-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
             font-weight: 400;
-            letter-spacing: 2px;
+            letter-spacing: 0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, #d4d0ca 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        h2 {
-            font-size: 1.4rem;
-            font-weight: 400;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            color: #f0f0f0;
-        }
-        .tagline {
-            color: #a0a0a0;
+
+        .author-tagline {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.1rem;
             font-style: italic;
-            margin-bottom: 30px;
+            color: var(--purple-accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .author-bio {
+            max-width: 560px;
+            margin: 0 auto 36px;
+            color: var(--text-secondary);
             font-size: 1.1rem;
         }
-        .bio {
-            max-width: 600px;
-            margin: 0 auto 30px;
-            color: #d0d0d0;
-        }
-        .section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-        }
-        .section-title {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            color: #888;
-        }
+
+        /* Social Links */
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 25px;
+            gap: 16px;
+            flex-wrap: wrap;
         }
+
         .social-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            color: #7eb8da;
+            gap: 10px;
+            color: var(--text-secondary);
             text-decoration: none;
-            padding: 10px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
+            padding: 12px 24px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: all 0.3s ease;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
+
         .social-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #7eb8da;
+            border-color: var(--purple-accent);
+            color: var(--text-primary);
+            background: var(--purple-subtle);
+            transform: translateY(-2px);
         }
+
         .social-link svg {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             fill: currentColor;
+            transition: fill 0.3s ease;
         }
-        .contact-email {
-            display: inline-block;
-            color: #7eb8da;
-            text-decoration: none;
-            font-size: 1.1rem;
-            padding: 12px 30px;
-            border: 1px solid #7eb8da;
-            border-radius: 30px;
-            transition: all 0.3s ease;
+
+        .social-link:hover svg {
+            fill: var(--purple-accent);
         }
-        .contact-email:hover {
-            background: #7eb8da;
-            color: #1a1a2e;
+
+        /* Section Styling */
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 48px 40px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
         }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--purple-accent), transparent);
+            opacity: 0.3;
+        }
+
+        .section-label {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--purple-accent);
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-subtle), transparent);
+        }
+
+        /* Books Grid */
         .books-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
+            gap: 24px;
         }
+
         .book-placeholder {
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 40px 20px;
-            color: #666;
+            background: var(--purple-subtle);
+            border: 1px dashed var(--border-subtle);
+            border-radius: 12px;
+            padding: 48px 32px;
+            text-align: center;
         }
-        .coming-soon {
-            font-size: 0.9rem;
+
+        .coming-badge {
+            display: inline-block;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #7eb8da;
+            color: var(--purple-accent);
+            padding: 6px 16px;
+            border: 1px solid var(--purple-accent);
+            border-radius: 100px;
+            margin-bottom: 12px;
         }
+
+        .book-placeholder p {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* FAQ */
         .faq-item {
-            text-align: left;
-            margin-bottom: 25px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-subtle);
         }
-        .faq-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
+
+        .faq-item:first-of-type {
+            padding-top: 0;
+        }
+
+        .faq-item:last-of-type {
             border-bottom: none;
+            padding-bottom: 0;
         }
+
         .faq-question {
-            font-weight: bold;
-            color: #f0f0f0;
-            margin-bottom: 10px;
-            font-size: 1.05rem;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 12px;
         }
+
         .faq-answer {
-            color: #a0a0a0;
+            color: var(--text-secondary);
             font-size: 0.95rem;
         }
+
+        /* Newsletter */
+        .newsletter-intro {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
         .newsletter-form {
             display: flex;
-            gap: 10px;
-            max-width: 450px;
-            margin: 20px auto 0;
+            gap: 12px;
+            max-width: 480px;
+            margin: 0 auto;
             flex-wrap: wrap;
             justify-content: center;
         }
+
         .newsletter-input {
             flex: 1;
-            min-width: 200px;
-            padding: 12px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #f0f0f0;
+            min-width: 220px;
+            padding: 16px 24px;
+            font-family: 'Crimson Pro', Georgia, serif;
             font-size: 1rem;
-            font-family: inherit;
-        }
-        .newsletter-input::placeholder {
-            color: #666;
-        }
-        .newsletter-input:focus {
+            color: var(--text-primary);
+            background: rgba(15, 15, 18, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
             outline: none;
-            border-color: #7eb8da;
+            transition: all 0.3s ease;
         }
+
+        .newsletter-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--purple-accent);
+            box-shadow: 0 0 0 3px var(--purple-glow);
+        }
+
         .newsletter-btn {
-            padding: 12px 30px;
-            background: #7eb8da;
-            color: #1a1a2e;
+            padding: 16px 32px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--bg-deep);
+            background: linear-gradient(135deg, var(--purple-primary), var(--purple-accent));
             border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-family: inherit;
+            border-radius: 100px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .newsletter-btn:hover {
-            background: #9fcce8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--purple-glow);
         }
-        footer {
-            margin-top: 20px;
+
+        /* Contact */
+        .contact-section {
             text-align: center;
-            color: #666;
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 16px 36px;
+            border: 1px solid var(--purple-accent);
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-email:hover {
+            background: var(--purple-primary);
+            border-color: var(--purple-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--purple-glow);
+        }
+
+        .contact-email svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--purple-accent);
+            transition: fill 0.3s ease;
+        }
+
+        .contact-email:hover svg {
+            fill: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding-top: 40px;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
-        @media (max-width: 600px) {
-            .author-card, .section {
-                padding: 30px 20px;
+
+        .publisher-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 16px;
+            padding: 8px 20px;
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .publisher-link:hover {
+            color: var(--purple-accent);
+            background: var(--purple-subtle);
+        }
+
+        .publisher-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container {
+                padding: 60px 20px 40px;
             }
-            h1 {
-                font-size: 2rem;
+
+            .author-hero {
+                margin-bottom: 60px;
             }
+
+            .author-photo {
+                width: 160px;
+                height: 160px;
+            }
+
+            .section {
+                padding: 36px 24px;
+            }
+
             .social-links {
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .social-link {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-input,
+            .newsletter-btn {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
     <div class="container">
-        <div class="author-card">
-            <img src="photo.jpg" alt="Matthew Karsten" class="author-photo">
-
-            <h1>Matthew Karsten</h1>
-            <p class="tagline">Author & Storyteller</p>
-
-            <div class="bio">
-                <p>Matthew Karsten is an author and world traveler who draws inspiration from years of exploring remote corners of the globe. His writing blends adventure, introspection, and the transformative power of stepping outside your comfort zone. When not writing, you'll find him planning his next journey or sharing stories from the road.</p>
+        <!-- Author Hero -->
+        <section class="author-hero">
+            <div class="author-photo-wrapper reveal reveal-1">
+                <img src="photo.jpg" alt="Matthew Karsten" class="author-photo">
             </div>
-
-            <div class="social-links">
-                <a href="https://instagram.com/americanmonks" target="_blank" class="social-link">
+            <h1 class="author-name reveal reveal-2">Matthew Karsten</h1>
+            <p class="author-tagline reveal reveal-3">Author & Storyteller</p>
+            <p class="author-bio reveal reveal-4">
+                Matthew Karsten is an author and world traveler who draws inspiration from years of exploring remote corners of the globe. His writing blends adventure, introspection, and the transformative power of stepping outside your comfort zone.
+            </p>
+            <div class="social-links reveal reveal-5">
+                <a href="https://instagram.com/americanmonks" target="_blank" rel="noopener" class="social-link">
                     <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     @americanmonks
                 </a>
-                <a href="https://twitter.com/expertvagabond" target="_blank" class="social-link">
+                <a href="https://x.com/expertvagabond" target="_blank" rel="noopener" class="social-link">
                     <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     @expertvagabond
                 </a>
             </div>
-        </div>
+        </section>
 
-        <div class="section">
-            <p class="section-title">Books</p>
+        <!-- Books -->
+        <section class="section reveal reveal-6">
+            <p class="section-label">Books</p>
             <div class="books-grid">
                 <div class="book-placeholder">
-                    <p class="coming-soon">Coming Soon</p>
-                    <p style="margin-top: 10px;">New titles in the works</p>
+                    <span class="coming-badge">Coming Soon</span>
+                    <p>New titles currently in development</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="section">
-            <p class="section-title">Frequently Asked Questions</p>
+        <!-- FAQ -->
+        <section class="section reveal reveal-6">
+            <p class="section-label">Frequently Asked Questions</p>
 
             <div class="faq-item">
                 <p class="faq-question">How do I download my eBook?</p>
@@ -274,24 +552,34 @@
                 <p class="faq-question">Will there be print editions available?</p>
                 <p class="faq-answer">Print editions are planned for select titles. Sign up for the newsletter below to be notified when they become available.</p>
             </div>
-        </div>
+        </section>
 
-        <div class="section">
-            <p class="section-title">Stay Updated</p>
-            <p style="color: #a0a0a0; margin-bottom: 10px;">Get notified about new releases and exclusive content.</p>
+        <!-- Newsletter -->
+        <section class="section reveal reveal-7">
+            <p class="section-label">Stay Updated</p>
+            <p class="newsletter-intro">Get notified about new releases and exclusive content.</p>
             <form class="newsletter-form" action="#" method="post">
                 <input type="email" class="newsletter-input" placeholder="Enter your email" required>
                 <button type="submit" class="newsletter-btn">Subscribe</button>
             </form>
-        </div>
+        </section>
 
-        <div class="section">
-            <p class="section-title">Contact & Support</p>
-            <a href="mailto:matthew@purplesquirrel.media" class="contact-email">matthew@purplesquirrel.media</a>
-        </div>
+        <!-- Contact -->
+        <section class="section contact-section reveal reveal-7">
+            <p class="section-label">Contact & Support</p>
+            <a href="mailto:matthew@purplesquirrel.media" class="contact-email">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                matthew@purplesquirrel.media
+            </a>
+        </section>
 
-        <footer>
-            <p>&copy; 2025 Matthew Karsten. All rights reserved.</p>
+        <!-- Footer -->
+        <footer class="reveal reveal-7">
+            <a href="https://purplesquirrel.media" target="_blank" rel="noopener" class="publisher-link">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Published by Purple Squirrel Media
+            </a>
+            <p class="copyright">&copy; 2026 Matthew Karsten. All rights reserved.</p>
         </footer>
     </div>
 </body>
